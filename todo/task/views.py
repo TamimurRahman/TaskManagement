@@ -13,7 +13,7 @@ def task_list(request):
     category_filter = request.GET.get('category','all')
     tasks = Task.objects.filter(user=request.user)
     if status_filter !='all':
-        tasks = tasks.filter(is_compleated=(status_filter == 'compleated'))
+        tasks = tasks.filter(is_completed=(status_filter == 'completed'))
     if category_filter !='all':
         tasks = tasks.filter(category=category_filter)
     
@@ -23,7 +23,7 @@ def task_list(request):
     return render(request,'task_list.html',{
         'status_filter':status_filter,
         'category_filter':category_filter,
-        'compleated_tasks':completed_tasks,
+        'completed_tasks':completed_tasks,
         'pending_tasks':pending_tasks,
     })
 
@@ -42,18 +42,18 @@ def task_create(request):
 
 def task_detail(request,task_id):
     task = get_object_or_404(Task, id = task_id, user=request.user)
-    return render(request,'',{'task':task})
+    return render(request,'task_detail.html',{'task':task})
 
 def task_delete(request,task_id):
     task = get_object_or_404(Task,id = task_id,user=request.user)
     task.delete()
-    return redirect('')
+    return redirect('task_list')
 
 def task_mark_compleated(request,task_id):
     task = get_object_or_404(Task,id = task_id,user=request.user)
-    task.is_compleated =True
+    task.is_completed =True
     task.save()
-    return redirect('')
+    return redirect('task_list')
 
 def register(request):
     if request.method == 'POST':

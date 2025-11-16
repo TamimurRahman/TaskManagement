@@ -6,7 +6,7 @@
 <div class='col-md-4'>
 <select name='status' class="form-select" aria-label="Default select example">
   <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All Tasks </option>
-  <option value="compleated" {% if status_filter == 'completed' %}selected{% endif %}>Completed</option>
+  <option value="completed" {% if status_filter == 'completed' %}selected{% endif %}>Completed</option>
   <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
 </select>
 </div>
@@ -23,4 +23,61 @@
 </div>
 </div>
 </form>
+ <div class='row'>
+<div class = 'col-md-6'>
+    <h3>Completed Tasks</h3>
+    <div class='card-columns'>
+        {% for i in  completed_tasks %}
+
+            <div class="card border-success mb-3" style="max-width: 18rem;">
+            <div class="card-header">{{i.title}}</div>
+            <p class="card-text">{{i.description | truncatewords:15 }}</p>
+            <span>Compleated</span>
+
+            <p class='card-text'>
+                <strong>Category: </strong><span>{{i.get_category_display}}</span><br>
+                <strong>Due:</strong>{{i.due_date}} at {{i.due_time}} <br>
+            </p>
+
+            <div class='row'>
+                <a href="{% url 'task_detail' i.id %}" class='btn btn-info btn-sm '>View</a>
+                <a href="{% url 'task_delete' i.id %}" class='btn btn-danger btn-sm '>Delete</a>
+            </div>
+            
+            </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+<div class = 'col-md-6'>
+    <h3>Pending Tasks</h3>
+    <div class='card-columns'>
+        {% for i in  pending_tasks %}
+
+            <div class="card border-success mb-3" style="max-width: 18rem;">
+            <div class="card-header">{{i.title}}</div>
+            <p class="card-text">{{i.description | truncatewords:15 }}</p>
+            <span>pending</span>
+
+            <p class='card-text'>
+                <strong>Category: </strong><span>{{i.get_category_display}}</span><br>
+                <strong>Due:</strong>{{i.due_date}} at {{i.due_time}} <br>
+            </p>
+
+            <div class='row'>
+                <a href="{% url 'task_detail' i.id %}" class='btn btn-info btn-sm '>View</a>
+                <a href="{% url 'task_delete' i.id %}" class='btn btn-danger btn-sm '>Delete</a>
+                <a href="{% url 'mark_complete' i.id %}" class='btn btn-success btn-sm'>Mark as Completed</a>
+            </div>
+            
+            </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+
+</div>
+</div>
 {% endblock content %}

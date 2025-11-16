@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class Task(models.Model):
     STATUS = [
         ('pending','Pending'),
-        ('compleated','Compleated'),
+        ('completed','Completed'),
     ]
     CATEGORY = [
         ('work','Work'),
